@@ -53,6 +53,16 @@ namespace KooliProjekt.WebAPI
 
             app.MapControllers();
 
+            using (var scope = app.Services.CreateScope())
+            using (var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>())
+            {
+                dbContext.Database.Migrate();
+#if (DEBUG)// Preprotsessori direktiiv, mis kontrollib, kas kood on kompileeritud arendusrežiimis (DEBUG). 
+                SeedData.Generate(dbContext);
+#endif
+            }
+
+
             app.Run();
         }
     }

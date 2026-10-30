@@ -1,6 +1,7 @@
-﻿using KooliProjekt.Application.Infrastructure.Results;
+using KooliProjekt.Application.Infrastructure.Results;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
 namespace KooliProjekt.WebAPI.Controllers
@@ -13,6 +14,10 @@ namespace KooliProjekt.WebAPI.Controllers
             new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Converters = { new StringEnumConverter() },
+#if(DEBUG)
+                Formatting = Formatting.Indented,
+#endif
                 NullValueHandling = NullValueHandling.Ignore                
             };
 
